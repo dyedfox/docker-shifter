@@ -4,6 +4,19 @@ declare -A SERVICES
 declare -A ENV_VARS
 declare -A DOCKERFILES
 
+# Print metadata for Docker CLI plugin
+if [ "$1" = "docker-cli-plugin-metadata" ]; then
+  cat <<EOF
+{
+  "SchemaVersion": "0.1.0",
+  "Vendor": "github.com/dyedfox",
+  "Version": "v0.1",
+  "ShortDescription": "Rollout and rollback a Docker Compose service version"
+}
+EOF
+  exit
+fi
+
 if [[ -f "./docker-shifter.conf" ]]; then
     source ./docker-shifter.conf
 else

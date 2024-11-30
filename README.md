@@ -4,18 +4,27 @@
 
 To make it easy for you to get started with docker-shifter, here's a list of recommended next steps.
 
-## Install tool 
-
-*be sure that you are in the user with sudo permissions*
+## Installation
+*be sure that you have sudo permissions*
 ```bash
-cd docker-shifter-tool
-bash install.sh
+# Install docker rollout
+# Create directory for Docker cli plugins
+mkdir -p ~/.docker/cli-plugins
+
+# Download docker-rollout script to Docker cli plugins directory
+curl https://raw.githubusercontent.com/wowu/docker-rollout/master/docker-rollout -o ~/.docker/cli-plugins/docker-rollout
+# Make the script executable
+chmod +x ~/.docker/cli-plugins/docker-rollout
+
+# Install docker shifter Docker cli plugins directory
+curl https://raw.githubusercontent.com/dyedfox/docker-shifter/refs/heads/main/plugin/docker-shifter -o ~/.docker/cli-plugins/docker-shifter
+# Make the script executable
+chmod +x ~/.docker/cli-plugins/docker-shifter
 ```
 
-## Copy and edit the file to match your project’s setup:
+## Copy docker-shifter.conf to your project's root and edit it to match your setup:
 
 ```bash 
-cp docker-shifter.conf /my-project/docker-shifter.conf
 nano docker-shifter.conf
 ```
 ### Example of `docker-shifter.conf` file
