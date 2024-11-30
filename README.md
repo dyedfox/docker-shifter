@@ -1,7 +1,15 @@
 # docker-shifter-tool
 
-## Getting started
+Bash script that simplifies the rollback of the docker compose services to their previous versions.
 
+Imagine a situation where you have a custom-built Docker image, and after deployment, you need to roll back to the previous version with zero downtime. This script does exactly that! It can handle several custom images - each corresponding to a different service.
+
+You can build specific images, start and stop the Docker Compose stack, and roll out or roll back your services with no downtime.
+
+## Requirements
+Docker rollout plugin installed: https://github.com/Wowu/docker-rollout
+
+## Getting started
 To make it easy for you to get started with docker-shifter, here's a list of recommended next steps.
 
 ## Installation
