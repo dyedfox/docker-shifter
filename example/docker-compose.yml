@@ -1,0 +1,33 @@
+services:
+  web1:
+    image: ${ROLL_IMAGE1}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.web.entrypoints=web"
+      - "traefik.http.routers.web.rule=Host(`web.example.com`)"
+  web2:
+    image: ${ROLL_IMAGE2}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.web2.entrypoints=web2"
+      - "traefik.http.routers.web2.rule=Host(`web2.example.com`)"
+  web3:
+    image: traefik/whoami:v1.9.0
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.web2.entrypoints=web2"
+      - "traefik.http.routers.web2.rule=Host(`web2.example.com`)"
+
+  traefik:
+    image: traefik:v2.9
+    container_name: traefik
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
