@@ -1,4 +1,4 @@
-# docker-shifter-tool
+# docker-shifter
 
 Bash script that simplifies the rollback of the docker compose services to their previous versions.
 
