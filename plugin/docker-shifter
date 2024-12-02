@@ -17,8 +17,21 @@ EOF
   exit
 fi
 
-ACTION=$1
-SERVICE=$2
+ACTION=$2
+SERVICE=$3
+
+parse_config(){
+    if [[ -f "./docker-shifter.conf" ]]; then
+        source ./docker-shifter.conf
+        echo -e "Running with the following parameters:\n"
+        grep -v '^\s*#' docker-shifter.conf | grep -v '^\s*$'
+        echo -e "\n"
+    else
+        echo -e "Error: File docker-shifter.conf does not exist!\n"
+        usage
+        exit 1
+    fi
+}
 
 # Build new image
 build() {
@@ -140,6 +153,7 @@ down() {
 usage() {
     echo "Usage: docker-shifter <action> [service]"
     echo "Actions:"
+    echo "  help                   - Print usage"
     echo "  build                  - Build a Docker image"
     echo "  up                     - Build (if necessary) and start containers"
     echo "  rollout                - Update a service with the new image"
@@ -150,52 +164,49 @@ usage() {
 }
 
 main() {
-    if [[ -f "./docker-shifter.conf" ]]; then
-        source ./docker-shifter.conf
-    else
-        echo -e "Error: File docker-shifter.conf does not exist!\n"
-        usage
-        exit 1
-    fi
-    echo -e "Running with the following parameters:\n"
-    grep -v '^\s*#' docker-shifter.conf | grep -v '^\s*$'
-    echo -e "\n"
+
     case "$ACTION" in
         help)
             usage
             exit 0
             ;;
         build)
-            if [[ -z "$2" ]]; then
+            if [[ -z "$3" ]]; then
                 echo -e "Error: SERVICE is required for build action\n"
                 usage
                 exit 1
             fi
+            parse_config
             build
             ;;
         up)
+            parse_config
             up
             ;;
         rollout)
-            if [[ -z "$2" ]]; then
+            if [[ -z "$3" ]]; then
                 echo -e "Error: SERVICE is required for rollout action\n"
                 usage
                 exit 1
             elif [[ "$2" == "--non-custom" ]]; then
-                rollout_non_custom "$3"
+                parse_config
+                rollout_non_custom "$4"
             else
+                parse_config
                 rollout
             fi
             ;;
         rollback)
-            if [[ -z "$2" ]]; then
+            if [[ -z "$3" ]]; then
                 echo -e "Error: SERVICE is required for rollback action\n"
                 usage
                 exit 1
             fi
+            parse_config
             rollback
             ;;
         down)
+            parse_config
             down
             ;;
         *)
