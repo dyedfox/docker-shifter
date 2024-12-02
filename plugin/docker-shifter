@@ -17,13 +17,6 @@ EOF
   exit
 fi
 
-if [[ -f "./docker-shifter.conf" ]]; then
-    source ./docker-shifter.conf
-else
-    echo "File docker-shifter.conf does not exist!"
-    exit 1
-fi
-
 ACTION=$1
 SERVICE=$2
 
@@ -157,6 +150,13 @@ usage() {
 }
 
 main() {
+    if [[ -f "./docker-shifter.conf" ]]; then
+        source ./docker-shifter.conf
+    else
+        echo -e "Error: File docker-shifter.conf does not exist!\n"
+        usage
+        exit 1
+    fi
     echo -e "Running with the following parameters:\n"
     grep -v '^\s*#' docker-shifter.conf | grep -v '^\s*$'
     echo -e "\n"
