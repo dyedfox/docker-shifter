@@ -151,7 +151,7 @@ down() {
 }
 
 usage() {
-    echo "Usage: docker-shifter <action> [service]"
+    echo "Usage: docker shifter <action> [service]"
     echo "Actions:"
     echo "  help                   - Print usage"
     echo "  build                  - Build a Docker image"
